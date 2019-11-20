@@ -1,5 +1,7 @@
 package com.nasimahmed;
 
+import java.util.Random;
+
 public class Point {
     private double x;
     private double y;
@@ -38,9 +40,19 @@ public class Point {
         return "("+x+","+y+")";
     }
 
+    //create random point
+    protected static Point createRandomPoint(int min, int max){
+        Random r = new Random();
+        double x = min + (max - min) * r.nextDouble();
+        double y = min + (max - min) * r.nextDouble();
+        return new Point(x, y);
+    }
+
+
     // Calculates the distance between two points.
      protected static double distance(Point p, Point centroid){
         return Math.sqrt(Math.pow((centroid.getY() - p.getY()), 2) + Math.pow((centroid.getX() - p.getX()), 2));
      }
+
 
 }

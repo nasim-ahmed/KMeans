@@ -8,12 +8,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class KMeans {
-    private ArrayList<Point> points = new ArrayList<Point>();
+    private int NUM_CLUSTERS = 3;
+    private List<Point> points;
+    private List<Cluster> clusters;
+
 
     public static void main(String[] args) {
-          KMeans kMeans = new KMeans();
-          kMeans.readFile("data.txt");
-          kMeans.printAllPoints();
+        KMeans kMeans = new KMeans();
+        kMeans.init();
+    }
+
+    public KMeans(){
+        this.points = new ArrayList<Point>();
+        this.clusters = new ArrayList();
     }
 
     public void readFile(String textFile){
@@ -40,6 +47,27 @@ public class KMeans {
     //to print all points from text file
     public void printAllPoints(){
         System.out.println(points.toString());
+    }
+
+    //initialize the process
+    public void init(){
+        //read from text file
+        readFile("data.txt");
+        //printAllPoints();
+        for(int i=0; i < NUM_CLUSTERS; i++){
+           Cluster cluster = new Cluster(i);
+           Point centroid = Point.createRandomPoint(KMeansConstants.MIN_COORDINATE, KMeansConstants.MAX_COORDINATE);
+           cluster.setCentroid(centroid);
+           clusters.add(cluster);
+        }
+       plotClusters();
+    }
+
+    public void plotClusters(){
+        for(int i = 0; i < NUM_CLUSTERS; i++){
+            Cluster c = clusters.get(i);
+            c.plotCluster();
+        }
     }
 
 
