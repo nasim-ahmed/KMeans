@@ -38,4 +38,9 @@ public class Point {
         return "("+x+","+y+")";
     }
 
+    // Calculates the distance between two points.
+     protected static double distance(Point p, Point centroid){
+        return Math.sqrt(Math.pow((centroid.getY() - p.getY()), 2) + Math.pow((centroid.getX() - p.getX()), 2));
+     }
+
 }

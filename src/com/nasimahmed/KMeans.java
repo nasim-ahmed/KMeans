@@ -37,10 +37,9 @@ public class KMeans {
        points.add(nextPoint);
     }
 
+    //to print all points from text file
     public void printAllPoints(){
-
         System.out.println(points.toString());
-
     }
 
 
