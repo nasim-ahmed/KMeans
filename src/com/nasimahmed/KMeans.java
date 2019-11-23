@@ -17,7 +17,6 @@ public class KMeans {
         KMeans kMeans = new KMeans();
         kMeans.init();
         kMeans.calculate();
-        kMeans.plotClusters();
     }
 
     public KMeans(){
@@ -25,36 +24,11 @@ public class KMeans {
         this.clusters = new ArrayList();
     }
 
-    public void readFile(String textFile){
-        try{
-            File file = new File(textFile);
-            BufferedReader reader = new BufferedReader(new FileReader(file));
-            String line = null;
-            while ( (line = reader.readLine()) != null){
-                addPoints(line);
-            }
-        }catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }catch (Exception ex){
-            ex.printStackTrace();
-        }
-    }
-
-    public void addPoints(String lineToParse){
-       String[] line = lineToParse.split(" ");
-       Point nextPoint = new Point(Double.valueOf(line[0]), Double.valueOf(line[1]) );
-       points.add(nextPoint);
-    }
-
-    //to print all points from text file
-    public void printAllPoints(){
-        System.out.println(points.toString());
-    }
 
     //initialize the process
     public void init(){
         //read from text file
-        readFile("data.txt");
+        points = InputFileReader.readFile("data.txt");
         //printAllPoints();
         for(int i=0; i < NUM_CLUSTERS; i++){
            Cluster cluster = new Cluster(i);
@@ -62,7 +36,6 @@ public class KMeans {
            cluster.setCentroid(centroid);
            clusters.add(cluster);
         }
-
     }
 
     public void plotClusters(){
@@ -80,7 +53,7 @@ public class KMeans {
          while (!isFinish) {
              clearClusters();
 
-             List lastCentroids = getCentroids();
+             List<Point> lastCentroids = getCentroids();
 
              //Assign points to the closer cluster
              assignClusters();
@@ -90,11 +63,14 @@ public class KMeans {
 
              iteration ++;
 
-             if (iteration == 3){
+             double distance = terminateClustering(lastCentroids, iteration);
+
+
+
+             if (distance == 0){
                  isFinish = true;
              }
          }
-
     }
 
     // remove all the points from the cluster
@@ -162,6 +138,24 @@ public class KMeans {
             }
 
         }
+    }
+
+    // terminate clustering process
+    public double terminateClustering(List<Point> oldCentroids, int iterations){
+
+        List<Point> currentCentroids = getCentroids();
+
+        double distance = 0.0;
+
+        for(int i = 0; i < oldCentroids.size(); i++){
+           distance += Point.distance(currentCentroids.get(i), oldCentroids.get(i));
+        }
+
+        System.out.println("#################");
+        System.out.println("Iteration: " + iterations);
+        plotClusters();
+
+        return distance;
     }
 
 
