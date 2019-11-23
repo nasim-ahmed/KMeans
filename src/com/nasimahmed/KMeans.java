@@ -1,9 +1,6 @@
 package com.nasimahmed;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,8 +61,6 @@ public class KMeans {
              iteration ++;
 
              double distance = terminateClustering(lastCentroids, iteration);
-
-
 
              if (distance == 0){
                  isFinish = true;
@@ -142,7 +137,6 @@ public class KMeans {
 
     // terminate clustering process
     public double terminateClustering(List<Point> oldCentroids, int iterations){
-
         List<Point> currentCentroids = getCentroids();
 
         double distance = 0.0;
@@ -150,15 +144,13 @@ public class KMeans {
         for(int i = 0; i < oldCentroids.size(); i++){
            distance += Point.distance(currentCentroids.get(i), oldCentroids.get(i));
         }
-
+        
         System.out.println("#################");
         System.out.println("Iteration: " + iterations);
         plotClusters();
 
         return distance;
     }
-
-
 
 
 }
